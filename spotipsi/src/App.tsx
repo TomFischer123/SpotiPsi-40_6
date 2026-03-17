@@ -5,7 +5,6 @@ import Header from './components/header/header';
 import theme from './theme';
 import Footer from './components/footer/footer';
 import MainSection from './components/mainSection/mainSection';
-import Songs from "./components/fetch/FetchSongs"
 
 
 interface Song {
@@ -23,10 +22,9 @@ function App() {
     <>
       <ThemeProvider theme={theme} >
         <Header />
-        <MainSection />
-        <Songs 
-        songList={songList}
-        setSongList={setSongList}
+        <MainSection
+          songList={songList}
+          setSongList={setSongList}
         />
         <Footer />
       </ThemeProvider>

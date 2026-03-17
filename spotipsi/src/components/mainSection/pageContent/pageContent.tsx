@@ -1,12 +1,29 @@
-import React from "react";
+import React, { type Dispatch } from "react";
+import Songs from "../../fetch/FetchSongs"
 
-const PageContent: React.FC = () => {
+
+interface Song {
+    id: string,
+    name: string,
+    artist: string,
+    album: string,
+}
+
+
+interface Props {
+    songList: Song[],
+    setSongList: Dispatch<Song[]>,
+}
+
+
+const PageContent: React.FC<Props> = ({ songList, setSongList }: Props) => {
 
     return (
         <>
-            <div >
-                <h1>page content</h1>
-            </div>
+            <Songs
+                songList={songList}
+                setSongList={setSongList}
+            />
         </>
     )
 }
