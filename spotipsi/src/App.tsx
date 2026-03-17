@@ -6,18 +6,30 @@ import theme from './theme';
 import Footer from './components/footer/footer';
 import MainSection from './components/mainSection/mainSection';
 
+
+interface Song {
+    id: string,
+    name: string,
+    artist: string,
+    album: string,
+}
+
+
 function App() {
   const { classes } = useStyles();
+  const [songList, setSongList] = useState<Song[]>([])
   return (
     <>
       <ThemeProvider theme={theme} >
         <Header />
-        <MainSection />
+        <MainSection
+          songList={songList}
+          setSongList={setSongList}
+        />
         <Footer />
       </ThemeProvider>
     </>
-
   )
 }
 
-export default App;
+export default App
