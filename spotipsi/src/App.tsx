@@ -4,7 +4,8 @@ import Header from './components/header/header';
 import theme from './theme';
 import Footer from './components/footer/footer';
 import MainSection from './components/mainSection/mainSection';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
+import Player from './components/player/player';
 
 
 interface Song {
@@ -24,15 +25,20 @@ function App() {
     <>
       <ThemeProvider theme={theme} >
         <Router>
-          <Header />
-          <MainSection 
-            songList={songList}
-            setSongList={setSongList}
-            favSongList={favSongList}
-            setFavSongList={setFavSongList}
-            isdiv={1}
-          />
-          <Footer />
+          <Routes>
+            <Route path='/' element={ <><Header /><MainSection
+              songList={songList}
+              setSongList={setSongList}
+              isdiv={1} /><Player /></>} />
+            <Route path ="/playlists" element = {<><Header /><MainSection
+              songList={songList}
+              setSongList={setSongList}
+              isdiv={2} /><Footer /></>}/>
+            <Route path ="/favorits" element = {<><Header /><MainSection
+              songList={songList}
+              setSongList={setSongList}
+              isdiv={3} /><Footer /></>}/>
+          </Routes>
         </Router>
       </ThemeProvider>
     </>
