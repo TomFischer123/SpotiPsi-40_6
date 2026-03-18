@@ -23,11 +23,11 @@ interface Props {
 function Song({ song, isFav, fetchFaves}: Props) {
     const  { classes } = useStyles();
 
-    const toggleFavorites = async (isFav: boolean) => {
+    const toggleFavorites = async () => {
         console.log("Checking favorite on:", song.id)
         if(!isFav) {
             try {
-                const response =  await fetch("http://localhost:5001/api/favorites/add", {
+                await fetch("http://localhost:5001/api/favorites/add", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -35,17 +35,36 @@ function Song({ song, isFav, fetchFaves}: Props) {
                     },
                     body: JSON.stringify({"songId": song.id})
                 }) 
-                const data = await response.json();
-                console.log(data)
+                console.log("Updated favorites!")
                 fetchFaves()
             } catch {
                 console.log("Something went wrong!");
                 return;
             }
             finally {
-                console.log("Updated favorites!")
+                console.log("Finished favorites update!")
             }
-        };
+        }
+        else {
+            try {
+                await fetch("http://localhost:5001/api/favorites/remove", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({"songId": song.id})
+                })
+                console.log("Updated favorites!")
+                fetchFaves()
+            } catch {
+                console.log("Something went wrong!");
+                return;
+            }
+            finally {
+                console.log("Finished favorites update!")
+            }
+        }
     }
 
     return (
@@ -57,7 +76,7 @@ function Song({ song, isFav, fetchFaves}: Props) {
                 </div>
                 <div>
                     <AddIcon />
-                    {isFav ? <HeartIcon color="secondary" onClick={() => toggleFavorites(isFav)}/>: <HeartBorderIcon onClick={() => toggleFavorites(isFav)}/>}
+                    {isFav ? <HeartIcon color="secondary" onClick={toggleFavorites}/>: <HeartBorderIcon onClick={toggleFavorites}/>}
                 </div>
             </div>
             <hr className={classes.sepLine}></hr>
