@@ -5,6 +5,7 @@ import Header from './components/header/header';
 import theme from './theme';
 import Footer from './components/footer/footer';
 import MainSection from './components/mainSection/mainSection';
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom"
 
 
 interface Song {
