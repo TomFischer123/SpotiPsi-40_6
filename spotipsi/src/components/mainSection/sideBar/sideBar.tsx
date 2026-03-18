@@ -22,7 +22,7 @@ const SideBar: React.FC<Props> = ({ isdiv }: Props) => {
                 style={{ backgroundColor: isdiv === 2 ? "#1f0723" : "#141414" }}>
                     <LibraryMusicIcon className={classes.icon} />
                     <p className={classes.p}>פליליסטים</p></div></Link>
-                <Link to="/favorits" style={{ textDecoration: 'none' }}><div className={classes.option} 
+                <Link to="/favorites" style={{ textDecoration: 'none' }}><div className={classes.option} 
                 style={{ backgroundColor: isdiv === 3 ? "#1f0723" : "#141414" }}>
                     <FavoriteIcon className={classes.icon} /><p className={classes.p}>מועדפים</p>
                     </div></Link>

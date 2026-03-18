@@ -4,7 +4,7 @@ import Header from './components/header/header';
 import theme from './theme';
 import Footer from './components/footer/footer';
 import MainSection from './components/mainSection/mainSection';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
+import { BrowserRouter as Router } from 'react-router-dom';
 
 
 interface Song {
@@ -17,24 +17,22 @@ interface Song {
 
 function App() {
   const [songList, setSongList] = useState<Song[]>([])
+  const [favSongList, setFavSongList] = useState<string[]>([])
+
+
   return (
     <>
       <ThemeProvider theme={theme} >
         <Router>
-          <Routes>
-            <Route path='/' element={ <><Header /><MainSection
-              songList={songList}
-              setSongList={setSongList}
-              isdiv={1} /><Footer /></>} />
-            <Route path ="/playlists" element = {<><Header /><MainSection
-              songList={songList}
-              setSongList={setSongList}
-              isdiv={2} /><Footer /></>}/>
-            <Route path ="/favorits" element = {<><Header /><MainSection
-              songList={songList}
-              setSongList={setSongList}
-              isdiv={3} /><Footer /></>}/>
-          </Routes>
+          <Header />
+          <MainSection 
+            songList={songList}
+            setSongList={setSongList}
+            favSongList={favSongList}
+            setFavSongList={setFavSongList}
+            isdiv={1}
+          />
+          <Footer />
         </Router>
       </ThemeProvider>
     </>
