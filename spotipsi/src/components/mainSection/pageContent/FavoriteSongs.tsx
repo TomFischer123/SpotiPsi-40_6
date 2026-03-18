@@ -20,7 +20,6 @@ const FavoriteSongs: React.FC<Props> = ({ songList, favIds}: Props) => {
 
     return (
         <>
-        
             <Songs
                 songList={songList.filter((song) => {
                     return (favIds.indexOf(song.id) > -1)

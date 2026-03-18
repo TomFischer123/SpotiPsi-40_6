@@ -26,12 +26,12 @@ function Song({ song, isFav }: Props) {
         <>
             <div className={classes.song}>
                 <div className={classes.SongInfo}>
-                    <PlayIcon />
+                    <PlayIcon color="secondary"/>
                     <h2>{song.name} - {song.artist}</h2>
                 </div>
                 <div>
                     <AddIcon />
-                    {isFav ? <HeartIcon />: <HeartBorderIcon />}
+                    {isFav ? <HeartIcon color="secondary"/>: <HeartBorderIcon />}
                 </div>
             </div>
             <hr className={classes.sepLine}></hr>

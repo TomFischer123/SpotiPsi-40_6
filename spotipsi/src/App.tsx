@@ -4,8 +4,7 @@ import Header from './components/header/header';
 import theme from './theme';
 import Footer from './components/footer/footer';
 import MainSection from './components/mainSection/mainSection';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
-import FavoriteSongs from './components/mainSection/pageContent/FavoriteSongs';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 
 interface Song {
@@ -25,29 +24,16 @@ function App() {
     <>
       <ThemeProvider theme={theme} >
         <Router>
-          <Routes>
-            <Route path='/' element={ <><Header /><MainSection
-              songList={songList}
-              setSongList={setSongList}
-              favSongList={favSongList}
-              setFavSongList={setFavSongList}
-              isdiv={1} /><Footer /></>} />
-            <Route path ="/playlists" element = {<><Header /><MainSection
-              songList={songList}
-              setSongList={setSongList}
-              favSongList={favSongList}
-              setFavSongList={setFavSongList}
-              isdiv={2} /><Footer /></>}/>
-            <Route path ="/favorits" element = {<><Header /><MainSection //CHECK LATER
-              songList={songList}
-              setSongList={setSongList}
-              favSongList={favSongList}
-              setFavSongList={setFavSongList}
-              isdiv={3} /><Footer /></>}/>
-          </Routes>
+          <Header />
+          <MainSection 
+            songList={songList}
+            setSongList={setSongList}
+            favSongList={favSongList}
+            setFavSongList={setFavSongList}
+            isdiv={1}
+          />
+          <Footer />
         </Router>
-        <Header />
-        <Footer />
       </ThemeProvider>
     </>
   )

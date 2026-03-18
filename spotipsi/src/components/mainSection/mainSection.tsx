@@ -3,6 +3,7 @@ import SideBar from "./sideBar/sideBar";
 import useStyles from "./stylesMainSection";
 import AllSongs from "./pageContent/AllSongs";
 import FavoriteSongs from "./pageContent/FavoriteSongs";
+import { Routes, Route } from "react-router-dom";
 
 
 interface Song {
@@ -24,6 +25,7 @@ interface Props {
 
 
 const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setFavSongList, isdiv }: Props) => {
+    const [divNum, setDivNum] = useState(isdiv)
     const { classes } = useStyles()
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -55,16 +57,25 @@ const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setF
 
     return (
         <div className={classes.mainSection}>
-            <SideBar isdiv={isdiv}/>
+            <SideBar isdiv={divNum}/>
             {isLoading ? <p>Loading...</p> : null}
 
             {error ? <p>{error}</p> : null}
 
             {(!error && !isLoading)
-                ? <AllSongs
-                    songList={songList}
-                    favIds={favSongList}
-                />: null
+                ? 
+                    <>
+                        <Routes>
+                            <Route
+                                path="/"
+                                element={<AllSongs songList={songList} favIds={favSongList} />}
+                            />
+                            <Route
+                                path="/favorites"
+                                element={<FavoriteSongs songList={songList} favIds={favSongList} />}
+                            />
+                        </Routes>
+                    </> : null
             }
         </div>
     )
