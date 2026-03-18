@@ -67,11 +67,19 @@ const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setF
                         <Routes>
                             <Route
                                 path="/"
-                                element={<AllSongs songList={songList} favIds={favSongList} setDivNum={setDivNum} />}
+                                element={<AllSongs 
+                                    songList={songList} 
+                                    favIds={favSongList} 
+                                    setFavIds={() => fetchSongs(setFavSongList, "http://localhost:5001/api/favorites")}
+                                    setDivNum={setDivNum} />}
                             />
                             <Route
                                 path="/favorites"
-                                element={<FavoriteSongs songList={songList} favIds={favSongList} setDivNum={setDivNum} />}
+                                element={<FavoriteSongs 
+                                    songList={songList} 
+                                    favIds={favSongList}
+                                    setFavIds={() => fetchSongs(setFavSongList, "http://localhost:5001/api/favorites")}
+                                    setDivNum={setDivNum} />}
                             />
                         </Routes>
                     </> : null

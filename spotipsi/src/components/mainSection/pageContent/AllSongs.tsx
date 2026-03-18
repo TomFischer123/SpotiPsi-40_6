@@ -13,11 +13,12 @@ interface Song {
 interface Props {
     songList: Song[],
     favIds: string[],
+    setFavIds: () => Promise<void>
     setDivNum: Dispatch<number>
 }
 
 
-const AllSongs: React.FC<Props> = ({ songList, favIds, setDivNum}: Props) => {
+const AllSongs: React.FC<Props> = ({ songList, favIds, setFavIds, setDivNum}: Props) => {
     setDivNum(1)
 
     return (
@@ -25,6 +26,7 @@ const AllSongs: React.FC<Props> = ({ songList, favIds, setDivNum}: Props) => {
             <Songs
                 songList={songList}
                 favIds={favIds}
+                setFavIds={setFavIds}
             />
         </>
     )

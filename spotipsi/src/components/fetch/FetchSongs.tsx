@@ -1,6 +1,7 @@
 import useStyles from './SongsStyles';
 import Song from './Song';
 
+
 interface SongInterface {
     id: string,
     name: string,
@@ -12,10 +13,11 @@ interface SongInterface {
 interface Props {
     songList: SongInterface[],
     favIds: string[]
+    setFavIds: () => Promise<void>
 }
 
 
-function Songs({ songList, favIds }: Props) {
+function Songs({ songList, favIds, setFavIds}: Props) {
     const  { classes } = useStyles();
     
 
@@ -29,6 +31,7 @@ function Songs({ songList, favIds }: Props) {
                             song={song}
                             key={index}
                             isFav={(favIds.indexOf(song.id) > -1)}
+                            fetchFaves={setFavIds}
                         />
                     )) 
                 }

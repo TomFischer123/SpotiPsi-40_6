@@ -14,10 +14,11 @@ interface Props {
     songList: Song[],
     favIds: string[],
     setDivNum: Dispatch<number>
+    setFavIds: () => Promise<void>
 }   
 
 
-const FavoriteSongs: React.FC<Props> = ({ songList, favIds, setDivNum}: Props) => {
+const FavoriteSongs: React.FC<Props> = ({ songList, favIds, setFavIds, setDivNum}: Props) => {
     setDivNum(3)
 
     return (
@@ -27,6 +28,7 @@ const FavoriteSongs: React.FC<Props> = ({ songList, favIds, setDivNum}: Props) =
                     return (favIds.indexOf(song.id) > -1)
                 })}
                 favIds={favIds}
+                setFavIds={setFavIds}
             />
         </>
     )
