@@ -27,24 +27,17 @@ function App() {
 
   return (
     <>
-      <ThemeProvider theme={theme} >
+       <ThemeProvider theme={theme} >
         <Router>
-          <Routes>
-            <Route path='/' element={ <><Header /><MainSection
-              songList={songList}
-              setSongList={setSongList}
-              isdiv={1} />
-              <Player currentSong = {currentSong} isPlaying = {false} queue={songList} currentTime='0' duration='3:00'/>
-              </>} />
-            <Route path ="/playlists" element = {<><Header /><MainSection
-              songList={songList}
-              setSongList={setSongList}
-              isdiv={2} /><Footer /></>}/>
-            <Route path ="/favorits" element = {<><Header /><MainSection
-              songList={songList}
-              setSongList={setSongList}
-              isdiv={3} /><Footer /></>}/>
-          </Routes>
+          <Header />
+          <MainSection 
+            songList={songList}
+            setSongList={setSongList}
+            favSongList={favSongList}
+            setFavSongList={setFavSongList}
+            isdiv={1}
+          />
+          <Player currentSong = {currentSong} isPlaying = {false} queue={songList} currentTime='0' duration='3:00'/>
         </Router>
       </ThemeProvider>
     </>
