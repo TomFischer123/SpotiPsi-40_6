@@ -15,6 +15,7 @@ const useStyles = makeStyles()(() => ({
         display: "flex",
         alignItems: "center",
         color: "#939292",
+        padding:"10px",
         textDecoration: "none",
          "&:hover": {
             backgroundColor: "#1f0723"

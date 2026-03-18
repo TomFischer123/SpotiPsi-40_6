@@ -7,6 +7,7 @@ import PauseIcon from '@mui/icons-material/Pause';
 import IconButton from '@mui/material/IconButton';
 import Slider from '@mui/material/Slider';
 import Box from '@mui/material/Box';
+import Typography from "@mui/material/Typography";
 
 interface Song {
     id: string,
@@ -23,7 +24,6 @@ interface Props{
 }
 
 const Player: React.FC<Props> = ({currentSong,isPlaying,queue,currentTime,duration}:Props) => {
-    console.log(currentSong)
     const { classes } = useStyles();
     const [click,setClick]  =useState(0)
 
@@ -41,8 +41,8 @@ const Player: React.FC<Props> = ({currentSong,isPlaying,queue,currentTime,durati
 
     return (
         <div className={classes.footer}>
-            <p className={classes.song}><b>{currentSong === undefined? "un":currentSong.name}</b></p>
-            <p className={classes.artist}>{currentSong === undefined? "un":currentSong.artist}</p>
+            <Typography className={classes.song}><b>{currentSong === undefined? "un":currentSong.name}</b></Typography>
+            <Typography className={classes.artist}>{currentSong === undefined? "un":currentSong.artist}</Typography>
             <div className={classes.buttons}>
                 <IconButton className={classes.play} ><SkipPreviousIcon fontSize="small" /></IconButton>
                 <IconButton className={classes.play} onClick={handleClickPlay}>{ click===0? <PlayArrowIcon />:<PauseIcon/>}</IconButton>

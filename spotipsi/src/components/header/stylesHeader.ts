@@ -2,7 +2,8 @@ import { makeStyles } from "tss-react/mui";
 
 const useStyles = makeStyles()(() => ({
     header: {
-        color: "purple"
+        color: "purple",
+        padding:"10px"
     },
     contant:{
         display:"flex",
