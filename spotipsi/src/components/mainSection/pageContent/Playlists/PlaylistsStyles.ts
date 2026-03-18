@@ -30,12 +30,50 @@ const useStyles = makeStyles()(() => ({
     addPopup: {
         position: 'absolute',
         backgroundColor: 'grey',
-        width: '500px',
-        height: '300px',
-        right: '50vw',
-        top: '50vh',
-        marginTop: '-50px',
-        marginLeft: '-50px',
+        width: '450px',
+        height: '270px',
+        padding: '25px',
+        left: 'calc(50% - 250px)',
+        top: 'calc(50% - 150px)',
+
+        display: 'none',
+        flexDirection: 'column',
+        gap: '15%',
+    },
+
+    popUpHeader: {
+        padding: '18px',
+        fontSize: '120%',
+    },
+
+    popupTextField: {
+        '& label': {
+            color: 'white', // Label color
+        },
+        '& .MuiInput-underline:before': {
+            borderBottomColor: 'white', // Default underline
+        },
+        '& .MuiInput-underline:hover:before': {
+            borderBottomColor: 'white', // Hover underline
+        },
+        '& .MuiInput-underline:after': {
+            borderBottomColor: 'white', // Focused underline
+        },
+        '& input': {
+            color: 'white', // Text color
+        },
+        width: '100%',
+    },
+
+    popupButtons: {
+        '& .MuiButton-root': {
+            color: 'white',
+        },
+
+        display:'flex',
+        width: '100%',
+        justifyContent: 'flex-end',
+
     },
 
     playlistInfo: {

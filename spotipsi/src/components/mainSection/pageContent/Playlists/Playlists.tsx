@@ -1,7 +1,7 @@
 import { useEffect, type Dispatch } from "react";
 import Playlist from "./Playlist";
 import useStyles from "./PlaylistsStyles";
-import { Button } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { List } from "@mui/material";
 
 interface PlaylistInterface {
@@ -44,7 +44,15 @@ const PlaylistsPage: React.FC<Props> = ({ playlists , setDivNum}: Props) => {
                                         />
                                     ))}
                             </List>
-                            <div className={classes.addPopup}>awdawd</div>
+                            <div className={classes.addPopup}>
+                                <Typography className={classes.popUpHeader}>יצירת פלייליסט חדש</Typography>
+                                <TextField className={classes.popupTextField} variant="standard" label="שם הפלייליסט"></TextField>
+                                
+                                <div className={classes.popupButtons}>
+                                    <Button>ביטול</Button>
+                                    <Button>צור</Button>
+                                </div>
+                            </div>
                         </>
                     )
                 }
