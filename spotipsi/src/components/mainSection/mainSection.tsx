@@ -23,10 +23,9 @@ interface Props {
 }
 
 
-
 const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setFavSongList, isdiv }: Props) => {
-    const [divNum, setDivNum] = useState(isdiv)
-    const { classes } = useStyles()
+    const [divNum, setDivNum] = useState(isdiv);
+    const { classes } = useStyles();
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>();
@@ -63,16 +62,16 @@ const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setF
             {error ? <p>{error}</p> : null}
 
             {(!error && !isLoading)
-                ? 
+                ?
                     <>
                         <Routes>
                             <Route
                                 path="/"
-                                element={<AllSongs songList={songList} favIds={favSongList} />}
+                                element={<AllSongs songList={songList} favIds={favSongList} setDivNum={setDivNum} />}
                             />
                             <Route
                                 path="/favorites"
-                                element={<FavoriteSongs songList={songList} favIds={favSongList} />}
+                                element={<FavoriteSongs songList={songList} favIds={favSongList} setDivNum={setDivNum} />}
                             />
                         </Routes>
                     </> : null

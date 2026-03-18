@@ -1,3 +1,4 @@
+import type { Dispatch } from "react"
 import Songs from "../../fetch/FetchSongs"
 
 
@@ -12,11 +13,12 @@ interface Song {
 interface Props {
     songList: Song[],
     favIds: string[],
-}
+    setDivNum: Dispatch<number>
+}   
 
 
-const FavoriteSongs: React.FC<Props> = ({ songList, favIds}: Props) => {
-    console.log(favIds)
+const FavoriteSongs: React.FC<Props> = ({ songList, favIds, setDivNum}: Props) => {
+    setDivNum(3)
 
     return (
         <>
