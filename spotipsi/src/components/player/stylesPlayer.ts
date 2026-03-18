@@ -22,7 +22,11 @@ const useStyles = makeStyles()(() => ({
     },
     buttons:{
         display:"flex",
-        alignItems:"center"
+        alignItems:"center",
+
+    },
+    play:{
+        color:"white"
     },
     slider:{
         color:"purple",

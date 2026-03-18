@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ThemeProvider } from '@mui/material/styles'
 import Header from './components/header/header';
 import theme from './theme';
@@ -15,11 +15,15 @@ interface Song {
   album: string,
 }
 
-
 function App() {
   const [songList, setSongList] = useState<Song[]>([])
   const [favSongList, setFavSongList] = useState<string[]>([])
 
+  const [currentSong, setCurrentSong] = useState<Song>()
+
+  useEffect(() => {
+    setCurrentSong(songList[0])
+  }, [songList]);
 
   return (
     <>
@@ -29,7 +33,9 @@ function App() {
             <Route path='/' element={ <><Header /><MainSection
               songList={songList}
               setSongList={setSongList}
-              isdiv={1} /><Player /></>} />
+              isdiv={1} />
+              <Player currentSong = {currentSong} isPlaying = {false} queue={songList} currentTime='0' duration='3:00'/>
+              </>} />
             <Route path ="/playlists" element = {<><Header /><MainSection
               songList={songList}
               setSongList={setSongList}
