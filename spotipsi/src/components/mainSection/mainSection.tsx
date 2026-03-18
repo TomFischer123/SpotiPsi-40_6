@@ -15,14 +15,15 @@ interface Song {
 interface Props {
     songList: Song[],
     setSongList: Dispatch<Song[]>,
+    isdiv:number
 }
 
 
-const MainSection: React.FC<Props> = ({ songList, setSongList }: Props) => {
+const MainSection: React.FC<Props> = ({ songList, setSongList,isdiv }: Props) => {
     const { classes } = useStyles()
     return (
         <div className={classes.mainSection}>
-            <SideBar />
+            <SideBar isdiv={isdiv}/>
             <PageContent 
                 songList={songList}
                 setSongList={setSongList}
