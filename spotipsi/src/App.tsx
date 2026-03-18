@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ThemeProvider } from '@mui/material/styles'
 import Header from './components/header/header';
 import theme from './theme';
 import Footer from './components/footer/footer';
 import MainSection from './components/mainSection/mainSection';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
+import Player from './components/player/player';
 
 
 interface Song {
@@ -14,15 +15,19 @@ interface Song {
   album: string,
 }
 
-
 function App() {
   const [songList, setSongList] = useState<Song[]>([])
   const [favSongList, setFavSongList] = useState<string[]>([])
 
+  const [currentSong, setCurrentSong] = useState<Song>()
+
+  useEffect(() => {
+    setCurrentSong(songList[0])
+  }, [songList]);
 
   return (
     <>
-      <ThemeProvider theme={theme} >
+       <ThemeProvider theme={theme} >
         <Router>
           <Header />
           <MainSection 
@@ -32,7 +37,7 @@ function App() {
             setFavSongList={setFavSongList}
             isdiv={1}
           />
-          <Footer />
+          <Player currentSong = {currentSong} isPlaying = {false} queue={songList} currentTime='0' duration='3:00'/>
         </Router>
       </ThemeProvider>
     </>
