@@ -1,4 +1,3 @@
-import React, { type Dispatch } from "react";
 import Songs from "../../fetch/FetchSongs"
 
 
@@ -12,19 +11,19 @@ interface Song {
 
 interface Props {
     songList: Song[],
-    setSongList: Dispatch<Song[]>,
+    favIds: string[],
 }
 
 
-const PageContent: React.FC<Props> = ({ songList, setSongList }: Props) => {
+const AllSongs: React.FC<Props> = ({ songList, favIds}: Props) => {
 
     return (
         <>
             <Songs
                 songList={songList}
-                setSongList={setSongList}
+                favIds={favIds}
             />
         </>
     )
 }
-export default PageContent;
+export default AllSongs;
