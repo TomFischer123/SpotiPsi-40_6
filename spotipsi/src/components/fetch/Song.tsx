@@ -30,7 +30,7 @@ interface Props {
 }
 
 
-function Song({ song, isFav, playlists, fetchFaves,setCurrentSong , currentSong}: Props) {
+function Song({ song, isFav, playlists, fetchFaves,setCurrentSong ,currentSong}: Props) {
     const  { classes } = useStyles();
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 

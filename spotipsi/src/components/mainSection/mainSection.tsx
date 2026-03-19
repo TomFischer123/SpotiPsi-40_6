@@ -16,9 +16,9 @@ interface Song {
 }
 
 interface PlaylistInterface {
-  id: string,
-  name: string,
-  songIds: string[],
+    id: string,
+    name: string,
+    songIds: string[],
 }
 
 
@@ -30,15 +30,15 @@ interface Props {
     isdiv: number,
     playlists: PlaylistInterface[],
     setPlaylistList: Dispatch<PlaylistInterface[]>,
-    setCurrentSong:Dispatch<SetStateAction<Song | undefined>>,
-    currentSong:Song | undefined,
+    setCurrentSong: Dispatch<SetStateAction<Song | undefined>>,
+    currentSong: Song | undefined,
     page: number,
     setPage: Dispatch<SetStateAction<number>>
 }
 
 
 
-const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setFavSongList, setCurrentSong, currentSong, isdiv, page, setPage,playlists, setPlaylistList}: Props) => {
+const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setFavSongList, setCurrentSong, currentSong, isdiv, page, setPage, playlists, setPlaylistList }: Props) => {
 
     let location = useLocation();
 
@@ -53,7 +53,7 @@ const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setF
         try {
             const response = await fetch(url);
             const data = await response.json();
-            
+
             setSongs(data)
         } catch (err) {
             setError("Something went wrong!");
@@ -96,23 +96,21 @@ const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setF
                     <Routes>
                         <Route
                             path="/"
-                            element={<AllSongs 
-                                songList={songList} 
-                                favIds={favSongList} 
+                            element={<AllSongs
+                                songList={songList}
+                                favIds={favSongList}
                                 playlists={playlists}
                                 setFavIds={() => fetchSongs(setFavSongList, "http://localhost:5001/api/favorites")}
-                                setDivNum={setDivNum} 
+                                setDivNum={setDivNum}
                                 setCurrentSong={setCurrentSong}
-                                    currentSong={currentSong}/>}
+                                currentSong={currentSong} />}
                         />
                         <Route
                             path="/playlists"
                             element={<PlaylistsPage
                                 playlists={playlists}
                                 setPlaylists={() => fetchSongs(setPlaylistList, "http://localhost:5001/api/playlists")}
-                                setDivNum={setDivNum} 
-                                setCurrentSong={setCurrentSong}
-                                    currentSong={currentSong}/>}
+                                setDivNum={setDivNum} />}
                         />
                         <Route
                             path="/playlists/:id"
@@ -121,14 +119,15 @@ const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setF
                                 songList={songList}
                                 favIds={favSongList}
                                 setPlaylists={() => fetchSongs(setPlaylistList, "http://localhost:5001/api/playlists")}
-                                setFavIds={() => fetchSongs(setFavSongList, "http://localhost:5001/api/favorites")} 
-                                setCurrentSong={setCurrentSong}
-                                currentSong={currentSong}/>}
+                                setFavIds={() => fetchSongs(setFavSongList, "http://localhost:5001/api/favorites")}
+                                setCurrentSong = {setCurrentSong}
+                                currentSong={currentSong}
+                                 />}
                         />
                         <Route
                             path="/favorites"
-                            element={<FavoriteSongs 
-                                songList={songList} 
+                            element={<FavoriteSongs
+                                songList={songList}
                                 favIds={favSongList}
                                 setFavIds={() => fetchSongs(setFavSongList, "http://localhost:5001/api/favorites")}
                                 playlists={playlists}

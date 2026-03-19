@@ -9,6 +9,11 @@ interface Song {
     album: string,
 }
 
+interface PlaylistInterface {
+  id: string,
+  name: string,
+  songIds: string[],
+}
 
 interface Props {
     songList: Song[],
@@ -16,11 +21,13 @@ interface Props {
     setDivNum: Dispatch<number>
     setFavIds: () => Promise<void>,
     setCurrentSong: Dispatch<SetStateAction<Song | undefined>>,
-    currentSong: Song | undefined
+    currentSong: Song | undefined,
+    playlists:PlaylistInterface[]
 }
 
 
-const FavoriteSongs: React.FC<Props> = ({ songList, favIds, setFavIds, setDivNum ,setCurrentSong,currentSong}: Props) => {
+
+const FavoriteSongs: React.FC<Props> = ({ songList, favIds, setFavIds, setDivNum ,setCurrentSong,currentSong,playlists}: Props) => {
     setDivNum(3)
 
     return (
@@ -33,6 +40,8 @@ const FavoriteSongs: React.FC<Props> = ({ songList, favIds, setFavIds, setDivNum
                 setFavIds={setFavIds}
                 setCurrentSong={setCurrentSong}
                 currentSong={currentSong}
+                playlists={playlists}
+                title="מועדפים"
             />
         </>
     )

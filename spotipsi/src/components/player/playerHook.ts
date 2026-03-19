@@ -1,16 +1,6 @@
 import { type Dispatch, type SetStateAction, useState, useRef, useEffect } from "react";
 
-// interface Props {
-//     currentSong: Song | undefined,
-//     isPlaying: boolean,
-//     queue: Song[],
-//     currentTime: string,
-//     duration: string,
-//     setIsPlaying: Dispatch<SetStateAction<boolean>>,
-//     trackIndex: number,
-//     setTrackIndex: Dispatch<SetStateAction<number>>
 
-// }
 interface Song {
     id: string;
     name: string;

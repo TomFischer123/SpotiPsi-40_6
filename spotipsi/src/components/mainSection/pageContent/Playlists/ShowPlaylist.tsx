@@ -1,7 +1,7 @@
 import useStyles from "./PlaylistsStyles";
 import Songs from "../../../fetch/FetchSongs";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect ,type Dispatch, type SetStateAction } from "react";
 
 interface SongInterface {
     id: string,
@@ -22,10 +22,12 @@ interface Props {
     favIds: string[],
     setFavIds: () => Promise<void>
     setPlaylists: () => Promise<void>
+    setCurrentSong: Dispatch<SetStateAction<SongInterface | undefined>>,
+    currentSong: SongInterface | undefined
 }
 
 
-const ShowPlaylist: React.FC<Props> = ({ songList, playlists, favIds, setFavIds, setPlaylists }: Props) => {
+const ShowPlaylist: React.FC<Props> = ({ songList, playlists, favIds, setFavIds, setPlaylists,setCurrentSong,currentSong }: Props) => {
     const params = useParams()
     const playlist = playlists[playlists.map((playlist) => {return playlist.id}).indexOf(params.id)]
 
@@ -40,6 +42,8 @@ const ShowPlaylist: React.FC<Props> = ({ songList, playlists, favIds, setFavIds,
                 setFavIds={setFavIds}
                 title={playlist.name}
                 playlists={playlists}
+                currentSong={currentSong}
+                setCurrentSong={setCurrentSong}
             /> : null
             }
         </>
