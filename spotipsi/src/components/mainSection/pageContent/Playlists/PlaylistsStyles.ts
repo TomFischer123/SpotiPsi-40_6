@@ -36,7 +36,7 @@ const useStyles = makeStyles()(() => ({
         left: 'calc(50% - 250px)',
         top: 'calc(50% - 150px)',
 
-        display: 'none',
+        display: 'flex',
         flexDirection: 'column',
         gap: '15%',
     },

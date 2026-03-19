@@ -1,4 +1,4 @@
-import { useEffect, type Dispatch } from "react";
+import { useEffect, useState, type Dispatch } from "react";
 import Playlist from "./Playlist";
 import useStyles from "./PlaylistsStyles";
 import { Button, TextField, Typography } from "@mui/material";
@@ -18,6 +18,7 @@ interface Props {
 
 const PlaylistsPage: React.FC<Props> = ({ playlists , setDivNum}: Props) => {
     const { classes } = useStyles()
+    const [isCreating, setIsCreating] = useState<boolean>(false)
 
     useEffect(() => {
         setDivNum(2);
@@ -28,7 +29,7 @@ const PlaylistsPage: React.FC<Props> = ({ playlists , setDivNum}: Props) => {
             <div className={classes.playlistContainer}>
                 <div className={classes.playlistHeader}>
                     <h1>הפלייליסטים שלי</h1>
-                    <Button className={classes.addButton} variant="outlined" color="secondary">צור פלייליסט</Button>
+                    <Button className={classes.addButton} variant="outlined" color="secondary" onClick={() => {setIsCreating(prev => !prev)}}>צור פלייליסט</Button>
                 </div>
                 {
                     (!playlists || playlists.length === 0) 
@@ -44,15 +45,20 @@ const PlaylistsPage: React.FC<Props> = ({ playlists , setDivNum}: Props) => {
                                         />
                                     ))}
                             </List>
-                            <div className={classes.addPopup}>
-                                <Typography className={classes.popUpHeader}>יצירת פלייליסט חדש</Typography>
-                                <TextField className={classes.popupTextField} variant="standard" label="שם הפלייליסט"></TextField>
-                                
-                                <div className={classes.popupButtons}>
-                                    <Button>ביטול</Button>
-                                    <Button>צור</Button>
+                            
+                            {isCreating ?
+                             (
+                                <div className={classes.addPopup}>
+                                    <Typography className={classes.popUpHeader}>יצירת פלייליסט חדש</Typography>
+                                    <TextField className={classes.popupTextField} variant="standard" label="שם הפלייליסט"></TextField>
+                                    
+                                    <div className={classes.popupButtons}>
+                                        <Button onClick={() => {setIsCreating(prev => !prev)}}>ביטול</Button>
+                                        <Button>צור</Button>
+                                    </div>
                                 </div>
-                            </div>
+                            )
+                            : null}
                         </>
                     )
                 }
