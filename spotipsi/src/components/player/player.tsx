@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, type Dispatch, type SetStateAction } from "react";
 import useStyles from "./stylesPlayer";
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
@@ -21,13 +21,17 @@ interface Props {
     isPlaying: boolean,
     queue: Song[],
     currentTime: string,
-    duration: string
+    duration: string,
+    setIsPlaying:Dispatch<SetStateAction<boolean>>,
+    trackIndex:number,
+    setTrackIndex:Dispatch<SetStateAction<number>>
+
 }
 
-const Player: React.FC<Props> = ({ currentSong, isPlaying, queue }: Props) => {
-    const { classes } = useStyles();
-    const [isplaying, setIsPlaiyng] = useState(isPlaying)
-    const [trackIndex, setTrackIndex] = useState(0);
+const Player: React.FC<Props> = ({ currentSong, isPlaying, setIsPlaying, queue, setTrackIndex ,trackIndex}: Props) => {
+    const { classes } = useStyles();  
+    // const [isplaying, setIsPlaiyng] = useState(isPlaying)
+    // const [trackIndex, setTrackIndex] = useState(0);
     const [trackProgress, setTrackProgress] = useState(0);
     const audioRef = useRef(new Audio(currentSong ? `/songs/${currentSong.id}.mp3` : ""));
     useEffect(() => {
@@ -45,12 +49,12 @@ const Player: React.FC<Props> = ({ currentSong, isPlaying, queue }: Props) => {
         console.log(trackIndex)
         if (trackIndex - 1 < 0) {
             audioRef.current.pause();
-            setIsPlaiyng(false)
+            setIsPlaying(false)
             setTrackIndex(queue.length - 1);
 
         } else {
             audioRef.current.pause();
-            setIsPlaiyng(false)
+            setIsPlaying(false)
             setTrackIndex(prev => prev - 1);
             console.log(trackIndex)
         }
@@ -59,11 +63,11 @@ const Player: React.FC<Props> = ({ currentSong, isPlaying, queue }: Props) => {
     const toNextTrack = () => {
         if (trackIndex < queue.length - 1) {
             audioRef.current.pause();
-            setIsPlaiyng(false)
+            setIsPlaying(false)
             setTrackIndex(trackIndex + 1);
         } else {
             audioRef.current.pause();
-            setIsPlaiyng(false)
+            setIsPlaying(false)
             setTrackIndex(0);
         }
     }
@@ -86,22 +90,22 @@ const Player: React.FC<Props> = ({ currentSong, isPlaying, queue }: Props) => {
 
 
     const handleClickPlay = () => {
-        if (isplaying === false) {
+        if (isPlaying === false) {
             console.log("playing")
-            setIsPlaiyng(true)
+            setIsPlaying(true)
         }
         else {
-            setIsPlaiyng(false)
+            setIsPlaying(false)
         }
     }
 
     useEffect(() => {
-        if (isplaying) {
+        if (isPlaying) {
             audioRef.current.play();
         } else {
             audioRef.current.pause();
         }
-    }, [isplaying]);
+    }, [isPlaying]);
 
     return (
         <div className={classes.footer}>
@@ -109,7 +113,7 @@ const Player: React.FC<Props> = ({ currentSong, isPlaying, queue }: Props) => {
             <Typography className={classes.artist}>{queue[trackIndex] === undefined ? "un" : queue[trackIndex].artist}</Typography>
             <div className={classes.buttons}>
                 <IconButton className={classes.play} onClick={toPrevTrack}><SkipPreviousIcon fontSize="small" /></IconButton>
-                <IconButton className={classes.play} onClick={handleClickPlay}>{isplaying === false ? <PlayArrowIcon /> : <PauseIcon />}</IconButton>
+                <IconButton className={classes.play} onClick={handleClickPlay}>{isPlaying === false ? <PlayArrowIcon /> : <PauseIcon />}</IconButton>
                 <IconButton className={classes.play} onClick={toNextTrack}><SkipNextIcon fontSize="small" /></IconButton>
             </div>
             <Box>

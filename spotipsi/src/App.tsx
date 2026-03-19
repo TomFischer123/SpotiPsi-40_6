@@ -22,6 +22,10 @@ interface PlaylistInterface {
 
 
 function App() {
+
+  const [isPlaying, setIsPlaiyng] = useState(false)
+  const [trackIndex, setTrackIndex] = useState(0);
+
   const [songList, setSongList] = useState<Song[]>([])
   const [favSongList, setFavSongList] = useState<string[]>([])
   const [playlists, setPlaylists] = useState<PlaylistInterface[]>([])
@@ -29,25 +33,33 @@ function App() {
   
   const [currentSong, setCurrentSong] = useState<Song>()
 
+
   useEffect(() => {
     setCurrentSong(songList[0])
   }, [songList]);
 
+  useEffect(() =>{
+    setTrackIndex(currentSong? songList.indexOf(currentSong):0)
+  }, [currentSong])
+
   return (
     <>
-       <ThemeProvider theme={theme} >
+      <ThemeProvider theme={theme} >
         <Router>
           <Header />
-          <MainSection 
+          <MainSection
             songList={songList}
             setSongList={setSongList}
             favSongList={favSongList}
             setFavSongList={setFavSongList}
             playlists={playlists}
             setPlaylistList={setPlaylists}
+            setCurrentSong = {setCurrentSong}
+            currentSong={currentSong}
             isdiv={1}
           />
-          <Player currentSong = {currentSong} isPlaying = {false} queue={songList} currentTime='0' duration='3:00'/>
+          <Player currentSong={currentSong} isPlaying={isPlaying} setIsPlaying={setIsPlaiyng}
+            queue={songList} setTrackIndex={setTrackIndex} trackIndex={trackIndex} currentTime='hh' duration='h' />
         </Router>
       </ThemeProvider>
     </>

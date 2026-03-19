@@ -17,6 +17,9 @@ const useStyles = makeStyles()(() => ({
         fontSize: "55%",
         alignItems: 'center',
         justifyContent: 'space-between',
+        "&:hover": {
+            backgroundColor: "#1f0723"
+        }
     },
 
     SongInfo: {

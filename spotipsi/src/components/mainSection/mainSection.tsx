@@ -1,4 +1,4 @@
-import React, { useEffect, useState, type Dispatch } from "react";
+import React, { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import SideBar from "./sideBar/sideBar";
 import useStyles from "./stylesMainSection";
 import AllSongs from "./pageContent/AllSongs";
@@ -30,10 +30,14 @@ interface Props {
     isdiv: number,
     playlists: PlaylistInterface[],
     setPlaylistList: Dispatch<PlaylistInterface[]>,
+    setCurrentSong:Dispatch<SetStateAction<Song | undefined>>,
+    currentSong:Song | undefined
 }
 
 
-const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setFavSongList, playlists, setPlaylistList, isdiv }: Props) => {
+    
+
+const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setFavSongList,setCurrentSong,currentSong,playlists, setPlaylistList, isdiv }: Props) => {
     const [divNum, setDivNum] = useState(isdiv);
     const { classes } = useStyles();
 
@@ -82,14 +86,18 @@ const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setF
                                 favIds={favSongList} 
                                 playlists={playlists}
                                 setFavIds={() => fetchSongs(setFavSongList, "http://localhost:5001/api/favorites")}
-                                setDivNum={setDivNum} />}
+                                setDivNum={setDivNum} 
+                                setCurrentSong={setCurrentSong}
+                                    currentSong={currentSong}/>}
                         />
                         <Route
                             path="/playlists"
                             element={<PlaylistsPage
                                 playlists={playlists}
                                 setPlaylists={() => fetchSongs(setPlaylistList, "http://localhost:5001/api/playlists")}
-                                setDivNum={setDivNum} />}
+                                setDivNum={setDivNum} 
+                                setCurrentSong={setCurrentSong}
+                                    currentSong={currentSong}/>}
                         />
                         <Route
                             path="/playlists/:id"
@@ -98,7 +106,9 @@ const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setF
                                 songList={songList}
                                 favIds={favSongList}
                                 setPlaylists={() => fetchSongs(setPlaylistList, "http://localhost:5001/api/playlists")}
-                                setFavIds={() => fetchSongs(setFavSongList, "http://localhost:5001/api/favorites")} />}
+                                setFavIds={() => fetchSongs(setFavSongList, "http://localhost:5001/api/favorites")} 
+                                setCurrentSong={setCurrentSong}
+                                currentSong={currentSong}/>}
                         />
                         <Route
                             path="/favorites"
@@ -107,7 +117,9 @@ const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setF
                                 favIds={favSongList}
                                 setFavIds={() => fetchSongs(setFavSongList, "http://localhost:5001/api/favorites")}
                                 playlists={playlists}
-                                setDivNum={setDivNum} />}
+                                setDivNum={setDivNum}
+                                setCurrentSong={setCurrentSong}
+                                currentSong={currentSong} />}
                         />
                         
                     </Routes>
