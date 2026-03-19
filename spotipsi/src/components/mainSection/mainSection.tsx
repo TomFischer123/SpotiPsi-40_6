@@ -80,6 +80,7 @@ const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setF
                             element={<AllSongs 
                                 songList={songList} 
                                 favIds={favSongList} 
+                                playlists={playlists}
                                 setFavIds={() => fetchSongs(setFavSongList, "http://localhost:5001/api/favorites")}
                                 setDivNum={setDivNum} />}
                         />
@@ -105,6 +106,7 @@ const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setF
                                 songList={songList} 
                                 favIds={favSongList}
                                 setFavIds={() => fetchSongs(setFavSongList, "http://localhost:5001/api/favorites")}
+                                playlists={playlists}
                                 setDivNum={setDivNum} />}
                         />
                         

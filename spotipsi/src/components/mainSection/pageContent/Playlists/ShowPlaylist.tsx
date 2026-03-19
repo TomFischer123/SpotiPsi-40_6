@@ -1,6 +1,7 @@
 import useStyles from "./PlaylistsStyles";
 import Songs from "../../../fetch/FetchSongs";
 import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 interface SongInterface {
     id: string,
@@ -26,7 +27,6 @@ interface Props {
 
 const ShowPlaylist: React.FC<Props> = ({ songList, playlists, favIds, setFavIds, setPlaylists }: Props) => {
     const params = useParams()
-    const { classes } = useStyles()
     const playlist = playlists[playlists.map((playlist) => {return playlist.id}).indexOf(params.id)]
 
     return (
@@ -39,6 +39,7 @@ const ShowPlaylist: React.FC<Props> = ({ songList, playlists, favIds, setFavIds,
                 favIds={favIds}
                 setFavIds={setFavIds}
                 title={playlist.name}
+                playlists={playlists}
             /> : null
             }
         </>
