@@ -4,8 +4,8 @@ import useStyles from "./stylesMainSection";
 import AllSongs from "./pageContent/AllSongs";
 import FavoriteSongs from "./pageContent/FavoriteSongs";
 import PlaylistsPage from "./pageContent/Playlists/Playlists";
-import { Routes, Route } from "react-router-dom";
 import ShowPlaylist from "./pageContent/Playlists/ShowPlaylist";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 
 interface Song {
@@ -31,13 +31,17 @@ interface Props {
     playlists: PlaylistInterface[],
     setPlaylistList: Dispatch<PlaylistInterface[]>,
     setCurrentSong:Dispatch<SetStateAction<Song | undefined>>,
-    currentSong:Song | undefined
+    currentSong:Song | undefined,
+    page: number,
+    setPage: Dispatch<SetStateAction<number>>
 }
 
 
-    
 
-const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setFavSongList,setCurrentSong,currentSong,playlists, setPlaylistList, isdiv }: Props) => {
+const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setFavSongList, setCurrentSong, currentSong, isdiv, page, setPage,playlists, setPlaylistList}: Props) => {
+
+    let location = useLocation();
+
     const [divNum, setDivNum] = useState(isdiv);
     const { classes } = useStyles();
 
@@ -47,7 +51,7 @@ const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setF
     const fetchSongs = async (setSongs: (Dispatch<Song[]> | Dispatch<string[]> | Dispatch<PlaylistInterface[]>), url: string) => {
         setIsLoading(true);
         try {
-            const response =  await fetch(url);
+            const response = await fetch(url);
             const data = await response.json();
             
             setSongs(data)
@@ -68,10 +72,21 @@ const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setF
         fetchSongs(setPlaylistList, "http://localhost:5001/api/playlists");
     }, [])
 
+    useEffect(() => {
+        if (location.pathname === "/") {
+            setPage(0)
+        }
+        else if (location.pathname === "/favorites") {
+            setPage(1)
+        }
+        else {
+            setPage(2)
+        }
+    }, [location])
 
     return (
         <div className={classes.mainSection}>
-            <SideBar isdiv={divNum}/>
+            <SideBar isdiv={divNum} />
             {isLoading ? <p>Loading...</p> : null}
 
             {error ? <p>{error}</p> : null}
@@ -121,7 +136,6 @@ const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setF
                                 setCurrentSong={setCurrentSong}
                                 currentSong={currentSong} />}
                         />
-                        
                     </Routes>
                 </> : null
             }

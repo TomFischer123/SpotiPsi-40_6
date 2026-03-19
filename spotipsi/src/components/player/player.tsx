@@ -30,12 +30,12 @@ interface Props {
 
 const Player: React.FC<Props> = ({ currentSong, isPlaying, setIsPlaying, queue, setTrackIndex ,trackIndex}: Props) => {
     const { classes } = useStyles();  
-    // const [isplaying, setIsPlaiyng] = useState(isPlaying)
-    // const [trackIndex, setTrackIndex] = useState(0);
     const [trackProgress, setTrackProgress] = useState(0);
     const audioRef = useRef(new Audio(currentSong ? `/songs/${currentSong.id}.mp3` : ""));
     useEffect(() => {
         if (currentSong) {
+            audioRef.current.pause();
+            setIsPlaying(false)
             audioRef.current = new Audio(`/songs/${currentSong.id}.mp3`);
         }
     }, [currentSong]);
@@ -72,13 +72,6 @@ const Player: React.FC<Props> = ({ currentSong, isPlaying, setIsPlaying, queue, 
         }
     }
 
-    useEffect(() => {
-        // Pause and clean up on unmount
-        return () => {
-            audioRef.current.pause();
-            clearInterval(intervalRef.current);
-        }
-    }, []);
 
     useEffect(() => {
         audioRef.current.pause();

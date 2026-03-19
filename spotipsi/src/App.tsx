@@ -23,8 +23,10 @@ interface PlaylistInterface {
 
 function App() {
 
+  const [page, setPage] = useState(0)
   const [isPlaying, setIsPlaiyng] = useState(false)
   const [trackIndex, setTrackIndex] = useState(0);
+  const [queueFav, setQueueFav] = useState<Song[]>([])
 
   const [songList, setSongList] = useState<Song[]>([])
   const [favSongList, setFavSongList] = useState<string[]>([])
@@ -35,12 +37,25 @@ function App() {
 
 
   useEffect(() => {
-    setCurrentSong(songList[0])
-  }, [songList]);
+    if (page === 0) { setCurrentSong(songList[0]) }
+    else if (page === 1) { setCurrentSong(queueFav[0]) }
+    else { setCurrentSong(songList[0]) }
+  }, [songList, queueFav]);
 
-  useEffect(() =>{
-    setTrackIndex(currentSong? songList.indexOf(currentSong):0)
+  useEffect(() => {
+    if (page === 0) { setTrackIndex(currentSong ? songList.indexOf(currentSong) : 0) }
+    else if (page === 1) { setTrackIndex(currentSong ? queueFav.indexOf(currentSong) : 0) }
+    else { setTrackIndex(currentSong ? songList.indexOf(currentSong) : 0) }
   }, [currentSong])
+
+  useEffect(() => {
+    setQueueFav(
+      songList.filter((song) => {
+        return (favSongList.indexOf(song.id) > -1)
+      })
+    )
+    console.log(queueFav)
+  }, [favSongList])
 
   return (
     <>
@@ -56,14 +71,16 @@ function App() {
             setPlaylistList={setPlaylists}
             setCurrentSong = {setCurrentSong}
             currentSong={currentSong}
+            page={page}
+            setPage={setPage}
             isdiv={1}
           />
           <Player currentSong={currentSong} isPlaying={isPlaying} setIsPlaying={setIsPlaiyng}
-            queue={songList} setTrackIndex={setTrackIndex} trackIndex={trackIndex} currentTime='hh' duration='h' />
+            queue={page === 0 ? songList : queueFav} setTrackIndex={setTrackIndex} trackIndex={trackIndex} currentTime='hh' duration='h' />
         </Router>
       </ThemeProvider>
     </>
   )
 }
 
-export default App
+export default App;
