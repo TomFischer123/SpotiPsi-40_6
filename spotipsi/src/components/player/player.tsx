@@ -30,7 +30,7 @@ interface Props {
 
 const Player: React.FC<Props> = ({ currentSong, isPlaying, setIsPlaying, queue, setTrackIndex, trackIndex }: Props) => {
     const { classes } = useStyles();
-    const [handleClickPlay, toPrevTrack, toNextTrack, isPalyingH, trackIndexH] = usePlayerHook(currentSong, isPlaying, setIsPlaying, queue, setTrackIndex, trackIndex)
+    const [handleClickPlay, toPrevTrack, toNextTrack, isPalyingH, trackIndexH, duration, position] = usePlayerHook(currentSong, isPlaying, setIsPlaying, queue, setTrackIndex, trackIndex)
 
     return (
         <div className={classes.footer}>
@@ -43,10 +43,15 @@ const Player: React.FC<Props> = ({ currentSong, isPlaying, setIsPlaying, queue, 
             </div>
             <Box>
                 <Slider className={classes.slider}
-                    size="small"
+                    aria-label="time-indicator"
                     defaultValue={0}
-                    aria-label="Small"
+                    size="small"
                     valueLabelDisplay="auto"
+                    color="secondary"
+                    value={position}
+                    min={0}
+                    step={1}
+                    max={duration}
                 />
             </Box>
         </div>

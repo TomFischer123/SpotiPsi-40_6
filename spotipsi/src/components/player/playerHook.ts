@@ -11,15 +11,17 @@ import { type Dispatch, type SetStateAction, useState, useRef, useEffect } from 
 //     setTrackIndex: Dispatch<SetStateAction<number>>
 
 // }
- interface Song {
+interface Song {
     id: string;
     name: string;
     artist: string;
     album: string;
 }
 
-const usePlayerHook = (currentSong:Song | undefined, isPlaying:boolean, setIsPlaying:Dispatch<SetStateAction<boolean>>, queue:Song[], setTrackIndex:Dispatch<SetStateAction<number>>, trackIndex:number):
-    [handleClickPlay: () => void,  toPrevTrack: () => void, toNextTrack: () => void, isPlayingH: boolean,trackIndexH: number] => {
+const usePlayerHook = (currentSong: Song | undefined, isPlaying: boolean, setIsPlaying: Dispatch<SetStateAction<boolean>>,
+    queue: Song[], setTrackIndex: Dispatch<SetStateAction<number>>, trackIndex: number):
+    [handleClickPlay: () => void, toPrevTrack: () => void, toNextTrack: () => void, isPlayingH: boolean,
+        trackIndexH: number, duration: number, trackProgress: number] => {
     const [trackProgress, setTrackProgress] = useState(0);
     const audioRef = useRef(new Audio(currentSong ? `/songs/${currentSong.id}.mp3` : ""));
     useEffect(() => {
@@ -30,10 +32,22 @@ const usePlayerHook = (currentSong:Song | undefined, isPlaying:boolean, setIsPla
         }
     }, [currentSong]);
 
-    const intervalRef = useRef(undefined);
+    const intervalRef = useRef(0);
     const isReady = useRef(false);
 
     const duration = audioRef.current.duration;
+
+    const startTimer = () => {
+        clearInterval(intervalRef.current);
+
+        intervalRef.current = setInterval(() => {
+            if (audioRef.current.ended) {
+                toNextTrack();
+            } else {
+                setTrackProgress(audioRef.current.currentTime);
+            }
+        }, 1000);
+    }
 
     const toPrevTrack = () => {
         console.log(trackIndex)
@@ -85,11 +99,15 @@ const usePlayerHook = (currentSong:Song | undefined, isPlaying:boolean, setIsPla
     useEffect(() => {
         if (isPlaying) {
             audioRef.current.play();
+            startTimer();
         } else {
             audioRef.current.pause();
         }
     }, [isPlaying]);
 
-    return [handleClickPlay, toPrevTrack, toNextTrack,isPlaying,trackIndex]
+
+    return [handleClickPlay, toPrevTrack, toNextTrack, isPlaying, trackIndex, duration, trackProgress]
 }
-export default usePlayerHook;
+
+
+export default usePlayerHook
