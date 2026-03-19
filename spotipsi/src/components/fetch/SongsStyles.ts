@@ -28,6 +28,7 @@ const useStyles = makeStyles()(() => ({
     sepLine: {
         width: '100%',
     },
+
 }))
 
 export default useStyles

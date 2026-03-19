@@ -9,28 +9,36 @@ interface SongInterface {
     album: string,
 }
 
+interface PlaylistInterface {
+  id: string,
+  name: string,
+  songIds: string[],
+}
 
 interface Props {
+    title: string,
     songList: SongInterface[],
-    favIds: string[]
-    setFavIds: () => Promise<void>
+    favIds: string[],
+    playlists: PlaylistInterface[],
+    setFavIds: () => Promise<void>,
 }
 
 
-function Songs({ songList, favIds, setFavIds}: Props) {
+function Songs({ title, songList, favIds, playlists, setFavIds}: Props) {
     const  { classes } = useStyles();
     
 
     return (
         <>
             <div className={classes.container}>
-                <h1>כל השירים</h1>
+                <h1>{title}</h1>
                 {
                     songList.map((song, index) => (
                         <Song 
                             song={song}
                             key={index}
                             isFav={(favIds.indexOf(song.id) > -1)}
+                            playlists={playlists}
                             fetchFaves={setFavIds}
                         />
                     )) 
