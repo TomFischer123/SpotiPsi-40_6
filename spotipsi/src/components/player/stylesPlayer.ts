@@ -29,7 +29,6 @@ const useStyles = makeStyles()(() => ({
         color:"white"
     },
     slider:{
-        color:"purple",
         width:"185vh"
     }
 }));

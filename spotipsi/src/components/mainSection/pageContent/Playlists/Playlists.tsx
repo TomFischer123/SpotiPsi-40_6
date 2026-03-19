@@ -17,7 +17,7 @@ interface Props {
 }
 
 
-const PlaylistsPage: React.FC<Props> = ({ playlists, setDivNum, setPlaylists, }: Props) => {
+const PlaylistsPage: React.FC<Props> = ({playlists, setDivNum, setPlaylists}: Props) => {
     const { classes } = useStyles()
     const [isCreating, setIsCreating] = useState<boolean>(false)
 
@@ -59,17 +59,18 @@ const PlaylistsPage: React.FC<Props> = ({ playlists, setDivNum, setPlaylists, }:
     };
     
     return (
-        <>
+       <>
             <div className={classes.playlistContainer}>
                 <div className={classes.playlistHeader}>
                     <h1>הפלייליסטים שלי</h1>
                     <Button className={classes.addButton} variant="outlined" color="secondary" onClick={() => {setIsCreating(prev => !prev)}}>צור פלייליסט</Button>
                 </div>
                 {
-                    (!playlists || playlists.length === 0) 
-                    ? <p>No playlists yet...</p>: 
-                    (
-                        <>
+                    <>
+                    {(!playlists || playlists.length === 0) 
+                        ? <p>No playlists yet...</p>: 
+                        (
+                        
                             <List>
                                 {
                                     playlists.map((playlist, index) => (
@@ -77,27 +78,24 @@ const PlaylistsPage: React.FC<Props> = ({ playlists, setDivNum, setPlaylists, }:
                                             key={index}
                                             playlist={playlist}
                                         />
-                                    ))}
+                                    ))
+                                }
                             </List>
-                            
-                            {
-                             (
-                                <Dialog open={isCreating} fullWidth={true} maxWidth={'xs'} className={classes.addPopup}>
-                                    <DialogContent>
-                                        <Typography className={classes.popUpHeader}>יצירת פלייליסט חדש</Typography>
-                                        <form onSubmit={handleSubmit} id="add-playlist">
-                                            <TextField className={classes.popupTextField} required name="playlistName" variant="standard" label="שם הפלייליסט"></TextField>
-                                        </form>
-                                    </DialogContent>
-                                    <DialogActions className={classes.popupButtons}>
-                                        <Button color="" type="submit" form="add-playlist">צור</Button>
-                                        <Button color="secondary" onClick={() => {setIsCreating(prev => !prev)}}>ביטול</Button>
-                                    </DialogActions>
-                                </Dialog>
-                            )
-                            }
-                        </>
-                    )
+                        )}
+                            <Dialog open={isCreating} fullWidth={true} maxWidth={'xs'} className={classes.addPopup}>
+                                <DialogContent>
+                                    <Typography className={classes.popUpHeader}>יצירת פלייליסט חדש</Typography>
+                                    <form onSubmit={handleSubmit} id="add-playlist">
+                                        <TextField className={classes.popupTextField} required name="playlistName" variant="standard" label="שם הפלייליסט"></TextField>
+                                    </form>
+                                </DialogContent>
+                                <DialogActions className={classes.popupButtons}>
+                                    <Button color="" type="submit" form="add-playlist">צור</Button>
+                                    <Button color="secondary" onClick={() => {setIsCreating(prev => !prev)}}>ביטול</Button>
+                                </DialogActions>
+                            </Dialog>
+                    
+                    </>
                 }
             </div>
         </>

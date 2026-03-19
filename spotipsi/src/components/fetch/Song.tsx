@@ -4,7 +4,7 @@ import HeartBorderIcon from '@mui/icons-material/FavoriteBorder'
 import HeartIcon from '@mui/icons-material/Favorite'
 import PlayIcon from '@mui/icons-material/PlayArrow'
 import { Button, List, ListItem, Popover, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useState, type Dispatch, type SetStateAction } from 'react';
 
 
 interface SongInterface {
@@ -24,11 +24,13 @@ interface Props {
     song: SongInterface,
     isFav: boolean,
     fetchFaves: () => Promise<void>
-    playlists: PlaylistInterface[]
+    playlists: PlaylistInterface[],
+    setCurrentSong: Dispatch<SetStateAction<SongInterface | undefined>>,
+    currentSong: SongInterface | undefined
 }
 
 
-function Song({ song, isFav, playlists, fetchFaves}: Props) {
+function Song({ song, isFav, playlists, fetchFaves,setCurrentSong ,currentSong}: Props) {
     const  { classes } = useStyles();
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
@@ -37,7 +39,7 @@ function Song({ song, isFav, playlists, fetchFaves}: Props) {
 
     const toggleFavorites = async () => {
         console.log("Checking favorite on:", song.id)
-        if(!isFav) {
+        if (!isFav) {
             try {
                 await fetch("http://localhost:5001/api/favorites/add", {
                     method: "POST",
@@ -45,8 +47,8 @@ function Song({ song, isFav, playlists, fetchFaves}: Props) {
                         "Content-Type": "application/json",
                         "Accept": "application/json"
                     },
-                    body: JSON.stringify({"songId": song.id})
-                }) 
+                    body: JSON.stringify({ "songId": song.id })
+                })
                 console.log("Updated favorites!")
                 fetchFaves()
             } catch {
@@ -65,7 +67,7 @@ function Song({ song, isFav, playlists, fetchFaves}: Props) {
                         "Content-Type": "application/json",
                         "Accept": "application/json"
                     },
-                    body: JSON.stringify({"songId": song.id})
+                    body: JSON.stringify({ "songId": song.id })
                 })
                 console.log("Updated favorites!")
                 fetchFaves()
@@ -77,6 +79,11 @@ function Song({ song, isFav, playlists, fetchFaves}: Props) {
                 console.log("Finished favorites update!")
             }
         }
+    }
+    const onSongClick =() =>
+    {
+        console.log(song)
+        setCurrentSong(song)
     }
 
     const handleClick = (event: React.MouseEvent<any>) => {
@@ -106,9 +113,9 @@ function Song({ song, isFav, playlists, fetchFaves}: Props) {
 
     return (
         <>
-            <div className={classes.song}>
+            <div className={classes.song} onClick={onSongClick}>
                 <div className={classes.SongInfo}>
-                    <PlayIcon color="secondary"/>
+                    <PlayIcon color="secondary" />
                     <h2>{song.name} - {song.artist}</h2>
                 </div>
                 <div>
@@ -140,4 +147,6 @@ function Song({ song, isFav, playlists, fetchFaves}: Props) {
     )
 }
 
-export default Song
+export default Song;
+
+

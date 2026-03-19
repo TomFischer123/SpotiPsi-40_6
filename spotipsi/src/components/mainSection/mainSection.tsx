@@ -1,11 +1,11 @@
-import React, { useEffect, useState, type Dispatch } from "react";
+import React, { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import SideBar from "./sideBar/sideBar";
 import useStyles from "./stylesMainSection";
 import AllSongs from "./pageContent/AllSongs";
 import FavoriteSongs from "./pageContent/FavoriteSongs";
 import PlaylistsPage from "./pageContent/Playlists/Playlists";
-import { Routes, Route } from "react-router-dom";
 import ShowPlaylist from "./pageContent/Playlists/ShowPlaylist";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 
 interface Song {
@@ -16,9 +16,9 @@ interface Song {
 }
 
 interface PlaylistInterface {
-  id: string,
-  name: string,
-  songIds: string[],
+    id: string,
+    name: string,
+    songIds: string[],
 }
 
 
@@ -30,10 +30,18 @@ interface Props {
     isdiv: number,
     playlists: PlaylistInterface[],
     setPlaylistList: Dispatch<PlaylistInterface[]>,
+    setCurrentSong: Dispatch<SetStateAction<Song | undefined>>,
+    currentSong: Song | undefined,
+    page: number,
+    setPage: Dispatch<SetStateAction<number>>
 }
 
 
-const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setFavSongList, playlists, setPlaylistList, isdiv }: Props) => {
+
+const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setFavSongList, setCurrentSong, currentSong, isdiv, page, setPage, playlists, setPlaylistList }: Props) => {
+
+    let location = useLocation();
+
     const [divNum, setDivNum] = useState(isdiv);
     const { classes } = useStyles();
 
@@ -43,9 +51,9 @@ const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setF
     const fetchSongs = async (setSongs: (Dispatch<Song[]> | Dispatch<string[]> | Dispatch<PlaylistInterface[]>), url: string) => {
         setIsLoading(true);
         try {
-            const response =  await fetch(url);
+            const response = await fetch(url);
             const data = await response.json();
-            
+
             setSongs(data)
         } catch (err) {
             setError("Something went wrong!");
@@ -64,10 +72,21 @@ const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setF
         fetchSongs(setPlaylistList, "http://localhost:5001/api/playlists");
     }, [])
 
+    useEffect(() => {
+        if (location.pathname === "/") {
+            setPage(0)
+        }
+        else if (location.pathname === "/favorites") {
+            setPage(1)
+        }
+        else {
+            setPage(2)
+        }
+    }, [location])
 
     return (
         <div className={classes.mainSection}>
-            <SideBar isdiv={divNum}/>
+            <SideBar isdiv={divNum} />
             {isLoading ? <p>Loading...</p> : null}
 
             {error ? <p>{error}</p> : null}
@@ -77,12 +96,14 @@ const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setF
                     <Routes>
                         <Route
                             path="/"
-                            element={<AllSongs 
-                                songList={songList} 
-                                favIds={favSongList} 
+                            element={<AllSongs
+                                songList={songList}
+                                favIds={favSongList}
                                 playlists={playlists}
                                 setFavIds={() => fetchSongs(setFavSongList, "http://localhost:5001/api/favorites")}
-                                setDivNum={setDivNum} />}
+                                setDivNum={setDivNum}
+                                setCurrentSong={setCurrentSong}
+                                currentSong={currentSong} />}
                         />
                         <Route
                             path="/playlists"
@@ -98,18 +119,22 @@ const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setF
                                 songList={songList}
                                 favIds={favSongList}
                                 setPlaylists={() => fetchSongs(setPlaylistList, "http://localhost:5001/api/playlists")}
-                                setFavIds={() => fetchSongs(setFavSongList, "http://localhost:5001/api/favorites")} />}
+                                setFavIds={() => fetchSongs(setFavSongList, "http://localhost:5001/api/favorites")}
+                                setCurrentSong = {setCurrentSong}
+                                currentSong={currentSong}
+                                 />}
                         />
                         <Route
                             path="/favorites"
-                            element={<FavoriteSongs 
-                                songList={songList} 
+                            element={<FavoriteSongs
+                                songList={songList}
                                 favIds={favSongList}
                                 setFavIds={() => fetchSongs(setFavSongList, "http://localhost:5001/api/favorites")}
                                 playlists={playlists}
-                                setDivNum={setDivNum} />}
+                                setDivNum={setDivNum}
+                                setCurrentSong={setCurrentSong}
+                                currentSong={currentSong} />}
                         />
-                        
                     </Routes>
                 </> : null
             }

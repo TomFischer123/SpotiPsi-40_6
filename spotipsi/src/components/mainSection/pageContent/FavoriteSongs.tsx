@@ -1,4 +1,4 @@
-import { useEffect, type Dispatch } from "react"
+import type { Dispatch, SetStateAction } from "react"
 import Songs from "../../fetch/FetchSongs"
 
 
@@ -19,15 +19,16 @@ interface Props {
     songList: Song[],
     favIds: string[],
     setDivNum: Dispatch<number>
-    setFavIds: () => Promise<void>
-    playlists: PlaylistInterface[]
-}   
+    setFavIds: () => Promise<void>,
+    setCurrentSong: Dispatch<SetStateAction<Song | undefined>>,
+    currentSong: Song | undefined,
+    playlists:PlaylistInterface[]
+}
 
 
-const FavoriteSongs: React.FC<Props> = ({ songList, favIds, playlists, setFavIds, setDivNum}: Props) => {
-    useEffect(() => {
-            setDivNum(3);
-        }, []);
+
+const FavoriteSongs: React.FC<Props> = ({ songList, favIds, setFavIds, setDivNum ,setCurrentSong,currentSong,playlists}: Props) => {
+    setDivNum(3)
 
     return (
         <>
@@ -37,8 +38,10 @@ const FavoriteSongs: React.FC<Props> = ({ songList, favIds, playlists, setFavIds
                 })}
                 favIds={favIds}
                 setFavIds={setFavIds}
+                setCurrentSong={setCurrentSong}
+                currentSong={currentSong}
                 playlists={playlists}
-                title="שירים מועדפים"
+                title="מועדפים"
             />
         </>
     )
