@@ -1,4 +1,4 @@
-import React, { useState, useEffect, type Dispatch, type SetStateAction } from "react";
+import React, { type Dispatch, type SetStateAction } from "react";
 import useStyles from "./stylesPlayer";
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import Slider from '@mui/material/Slider';
 import Box from '@mui/material/Box';
 import Typography from "@mui/material/Typography";
-import { useRef } from 'react';
+import usePlayerHook from "./playerHook";
 
 interface Song {
     id: string,
@@ -22,91 +22,23 @@ interface Props {
     queue: Song[],
     currentTime: string,
     duration: string,
-    setIsPlaying:Dispatch<SetStateAction<boolean>>,
-    trackIndex:number,
-    setTrackIndex:Dispatch<SetStateAction<number>>
+    setIsPlaying: Dispatch<SetStateAction<boolean>>,
+    trackIndex: number,
+    setTrackIndex: Dispatch<SetStateAction<number>>
 
 }
 
-const Player: React.FC<Props> = ({ currentSong, isPlaying, setIsPlaying, queue, setTrackIndex ,trackIndex}: Props) => {
-    const { classes } = useStyles();  
-    const [trackProgress, setTrackProgress] = useState(0);
-    const audioRef = useRef(new Audio(currentSong ? `/songs/${currentSong.id}.mp3` : ""));
-    useEffect(() => {
-        if (currentSong) {
-            audioRef.current.pause();
-            setIsPlaying(false)
-            audioRef.current = new Audio(`/songs/${currentSong.id}.mp3`);
-        }
-    }, [currentSong]);
-
-    const intervalRef = useRef(undefined);
-    const isReady = useRef(false);
-
-    const duration = audioRef.current.duration;
-
-    const toPrevTrack = () => {
-        console.log(trackIndex)
-        if (trackIndex - 1 < 0) {
-            audioRef.current.pause();
-            setIsPlaying(false)
-            setTrackIndex(queue.length - 1);
-
-        } else {
-            audioRef.current.pause();
-            setIsPlaying(false)
-            setTrackIndex(prev => prev - 1);
-            console.log(trackIndex)
-        }
-    }
-
-    const toNextTrack = () => {
-        if (trackIndex < queue.length - 1) {
-            audioRef.current.pause();
-            setIsPlaying(false)
-            setTrackIndex(trackIndex + 1);
-        } else {
-            audioRef.current.pause();
-            setIsPlaying(false)
-            setTrackIndex(0);
-        }
-    }
-
-
-    useEffect(() => {
-        audioRef.current.pause();
-        if (!queue.length) return;
-        const song = queue[trackIndex];
-        console.log(song)
-        audioRef.current = new Audio(`/songs/${song.id}.mp3`);
-    }, [trackIndex, queue]);
-
-
-    const handleClickPlay = () => {
-        if (isPlaying === false) {
-            console.log("playing")
-            setIsPlaying(true)
-        }
-        else {
-            setIsPlaying(false)
-        }
-    }
-
-    useEffect(() => {
-        if (isPlaying) {
-            audioRef.current.play();
-        } else {
-            audioRef.current.pause();
-        }
-    }, [isPlaying]);
+const Player: React.FC<Props> = ({ currentSong, isPlaying, setIsPlaying, queue, setTrackIndex, trackIndex }: Props) => {
+    const { classes } = useStyles();
+    const [handleClickPlay, toPrevTrack, toNextTrack, isPalyingH, trackIndexH] = usePlayerHook(currentSong, isPlaying, setIsPlaying, queue, setTrackIndex, trackIndex)
 
     return (
         <div className={classes.footer}>
-            <Typography className={classes.song}><b>{queue[trackIndex] === undefined ? "un" : queue[trackIndex].name}</b></Typography>
-            <Typography className={classes.artist}>{queue[trackIndex] === undefined ? "un" : queue[trackIndex].artist}</Typography>
+            <Typography className={classes.song}><b>{queue[trackIndexH] ? queue[trackIndexH].name : "un"}</b></Typography>
+            <Typography className={classes.artist}>{queue[trackIndexH] ? queue[trackIndexH].artist : "un"}</Typography>
             <div className={classes.buttons}>
                 <IconButton className={classes.play} onClick={toPrevTrack}><SkipPreviousIcon fontSize="small" /></IconButton>
-                <IconButton className={classes.play} onClick={handleClickPlay}>{isPlaying === false ? <PlayArrowIcon /> : <PauseIcon />}</IconButton>
+                <IconButton className={classes.play} onClick={handleClickPlay}>{isPalyingH === false ? <PlayArrowIcon /> : <PauseIcon />}</IconButton>
                 <IconButton className={classes.play} onClick={toNextTrack}><SkipNextIcon fontSize="small" /></IconButton>
             </div>
             <Box>
