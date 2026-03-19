@@ -60,7 +60,9 @@ function App() {
   useEffect(() => {
     console.log(playlists)
     if(playlists[0]){
-      console.log(playlists[0].songIds)
+      console.log(songList.filter((song) => {
+        return (playlists[0].songIds.indexOf(song.id) > -1)
+      })[0].id)
       setQueuePlaylist(
       songList.filter((song) => {
         return (playlists[0].songIds.indexOf(song.id) > -1)
