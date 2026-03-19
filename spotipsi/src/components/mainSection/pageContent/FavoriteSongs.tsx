@@ -1,4 +1,4 @@
-import type { Dispatch } from "react"
+import { useEffect, type Dispatch } from "react"
 import Songs from "../../fetch/FetchSongs"
 
 
@@ -19,7 +19,9 @@ interface Props {
 
 
 const FavoriteSongs: React.FC<Props> = ({ songList, favIds, setFavIds, setDivNum}: Props) => {
-    setDivNum(3)
+    useEffect(() => {
+            setDivNum(3);
+        }, []);
 
     return (
         <>
@@ -29,6 +31,7 @@ const FavoriteSongs: React.FC<Props> = ({ songList, favIds, setFavIds, setDivNum
                 })}
                 favIds={favIds}
                 setFavIds={setFavIds}
+                title="שירים מועדפים"
             />
         </>
     )

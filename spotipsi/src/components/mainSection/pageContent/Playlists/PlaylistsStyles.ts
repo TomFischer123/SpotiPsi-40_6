@@ -21,6 +21,14 @@ const useStyles = makeStyles()(() => ({
         flexDirection: 'column',
     },
 
+    playlistLink: {
+        textDecoration: "none", 
+        color: "inherit",
+        display: "flex",
+        justifyContent: "flex-end",
+        width: "100%",
+    },
+
     miniInfo: {
         fontSize: '80%',
         color: 'grey',
@@ -28,14 +36,7 @@ const useStyles = makeStyles()(() => ({
     },
 
     addPopup: {
-        position: 'absolute',
-        backgroundColor: 'grey',
-        width: '450px',
-        height: '270px',
-        padding: '25px',
-        left: 'calc(50% - 250px)',
-        top: 'calc(50% - 150px)',
-
+        color: 'black',
         display: 'flex',
         flexDirection: 'column',
         gap: '15%',
@@ -66,14 +67,7 @@ const useStyles = makeStyles()(() => ({
     },
 
     popupButtons: {
-        '& .MuiButton-root': {
-            color: 'white',
-        },
-
-        display:'flex',
-        width: '100%',
-        justifyContent: 'flex-end',
-
+        justifyContent: 'left',
     },
 
     playlistInfo: {

@@ -5,6 +5,7 @@ import AllSongs from "./pageContent/AllSongs";
 import FavoriteSongs from "./pageContent/FavoriteSongs";
 import PlaylistsPage from "./pageContent/Playlists/Playlists";
 import { Routes, Route } from "react-router-dom";
+import ShowPlaylist from "./pageContent/Playlists/ShowPlaylist";
 
 
 interface Song {
@@ -86,7 +87,17 @@ const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setF
                             path="/playlists"
                             element={<PlaylistsPage
                                 playlists={playlists}
+                                setPlaylists={() => fetchSongs(setPlaylistList, "http://localhost:5001/api/playlists")}
                                 setDivNum={setDivNum} />}
+                        />
+                        <Route
+                            path="/playlists/:id"
+                            element={<ShowPlaylist
+                                playlists={playlists}
+                                songList={songList}
+                                favIds={favSongList}
+                                setPlaylists={() => fetchSongs(setPlaylistList, "http://localhost:5001/api/playlists")}
+                                setFavIds={() => fetchSongs(setFavSongList, "http://localhost:5001/api/favorites")} />}
                         />
                         <Route
                             path="/favorites"
@@ -96,6 +107,7 @@ const MainSection: React.FC<Props> = ({ songList, setSongList, favSongList, setF
                                 setFavIds={() => fetchSongs(setFavSongList, "http://localhost:5001/api/favorites")}
                                 setDivNum={setDivNum} />}
                         />
+                        
                     </Routes>
                 </> : null
             }

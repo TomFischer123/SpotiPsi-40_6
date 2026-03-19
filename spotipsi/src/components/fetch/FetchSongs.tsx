@@ -11,20 +11,21 @@ interface SongInterface {
 
 
 interface Props {
+    title: string,
     songList: SongInterface[],
     favIds: string[]
     setFavIds: () => Promise<void>
 }
 
 
-function Songs({ songList, favIds, setFavIds}: Props) {
+function Songs({ title, songList, favIds, setFavIds}: Props) {
     const  { classes } = useStyles();
     
 
     return (
         <>
             <div className={classes.container}>
-                <h1>כל השירים</h1>
+                <h1>{title}</h1>
                 {
                     songList.map((song, index) => (
                         <Song 
